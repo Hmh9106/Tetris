@@ -79,8 +79,8 @@ public class Mino {
     for(int i = 1; i < b.length; i++){
         if(b[i].y + Block.SIZE == PlayManager.bottom_y){
             bottomCollistion = true;
+            }
         }
-    }
     }
     public void checkRotationCollisiton(){
     leftCollision = false;

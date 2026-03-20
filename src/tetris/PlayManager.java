@@ -412,24 +412,6 @@ public class PlayManager {
             square.draw(g2);
         }
         
-        //draw pause
-        g2.setColor(Color.gray);
-        g2.setFont(g2.getFont().deriveFont(80f));
-        if(KeyHandler.pausePressed){
-            x = left_x + 70;
-            y = top_y + 320;
-            g2.drawString("PAUSE️D", x-50, y);
-        }
-        
-        //draw game over
-        if(gameOver){
-            x = left_x + 25;
-            y = top_y + 320;
-            g2.setFont(new Font("Arial",Font.BOLD,60));
-            g2.setColor(Color.white);
-            g2.drawString("GAME OVER", x, y);
-        }
-        
         //draw mute
         if(KeyHandler.muteMusicPressed){
             x = left_x - 440;

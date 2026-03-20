@@ -96,10 +96,6 @@ public class GamePanel extends JPanel implements Runnable, MouseListener  {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
-
-    /**
-     *
-     */
     
     public void restartGame() {
         PlayManager.staticBlocks.clear();
