@@ -59,9 +59,6 @@ public class KeyHandler implements KeyListener{
                 GamePanel.music.stop();
             }
         }    
-        if(code == KeyEvent.VK_R){
-            refreshPressed = true;
-        }
     }
 
     @Override

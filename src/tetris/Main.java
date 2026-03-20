@@ -3,6 +3,7 @@ package tetris;
 import Database.JDBCUtil;
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class Main extends JFrame {
     private CardLayout cardLayout;
@@ -15,6 +16,8 @@ public class Main extends JFrame {
         setTitle("Tetris Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+
+        setIconForProgram();
         
         // Khởi tạo kết nối database
         JDBCUtil.getConnection();
@@ -39,43 +42,52 @@ public class Main extends JFrame {
         pack();
         setLocationRelativeTo(null);
     }
+
+    private void setIconForProgram() {
+            URL iconURL = getClass().getResource("/imgs/icon128.png");
+                ImageIcon icon = new ImageIcon(iconURL);
+                setIconImage(icon.getImage());
+    }
     
     private void startGame() {
         playerName = menuPanel.getPlayerName();
         
-        // KHÔNG xóa gamePanel cũ, chỉ cập nhật tên và restart
-        gamePanel.setPlayerName(playerName);
-        gamePanel.restartGame();
+        // Xóa game panel cũ nếu có
+        if (gamePanel != null) {
+            mainPanel.remove(gamePanel);
+        }
+        
+        // Tạo game panel mới với tên người chơi
+        gamePanel = new GamePanel(playerName);
+        mainPanel.add(gamePanel, "GAME");
         
         // Chuyển sang màn hình game
         cardLayout.show(mainPanel, "GAME");
         
-        // QUAN TRỌNG: Yêu cầu focus cho GamePanel để nhận sự kiện bàn phím
+        // Yêu cầu focus cho GamePanel
         gamePanel.requestFocusInWindow();
         
         gamePanel.launchGame();
     }
     
     public void showMenu() {
-        // Refresh bảng xếp hạng
         menuPanel.refreshRanking();
         
-        // KHÔNG xóa gamePanel, chỉ dừng game và chuyển về menu
         if (gamePanel != null) {
-            gamePanel.stopGame();
+            mainPanel.remove(gamePanel);
+            gamePanel = null;
         }
         
-        // Chuyển về menu
-        cardLayout.show(mainPanel, "MENU");
+        gamePanel = new GamePanel();
+        mainPanel.add(gamePanel, "GAME");
         
-        // Dừng nhạc game
+        cardLayout.show(mainPanel, "MENU");
         GamePanel.music.stop();
     }
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                // Set look and feel
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception e) {
                 e.printStackTrace();
